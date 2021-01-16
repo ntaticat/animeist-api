@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 const uniqueValidator = require("mongoose-unique-validator");
 
 const estadosValidos = {
-    values: ["1", "2", "3"],
+    values: [1, 2, 3],
     message: "{VALUE} no es un valor valido"
 };
 

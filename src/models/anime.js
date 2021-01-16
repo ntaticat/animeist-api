@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 const uniqueValidator = require("mongoose-unique-validator");
 
 const estadosValidos = {
-    values: [1, 2, 3],
+    values: ["1", "2", "3"],
     message: "{VALUE} no es un valor valido"
 };
 
@@ -14,8 +14,8 @@ let animeSchema = new Schema({
         unique: true
     },
     estado: {
-        type: Number,
-        default: 1,
+        type: String,
+        default: "1",
         enum: estadosValidos
     } 
 });

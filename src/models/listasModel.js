@@ -1,22 +1,29 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const estadosValidos = {
-    values: ["1", "2", "3"],
-    message: "{VALUE} no es un valor valido"
-};
-
 let listaSchema = new Schema({
-    nombre: {
-        type: String,
-        required: [true, "El nombre es obligatorio"],
-        unique: true
+    usuario: {
+        type: Schema.Types.ObjectId,
+        ref: 'Usuario',
+        required: true
     },
-    estado: {
-        type: String,
-        default: "1",
-        enum: estadosValidos
-    }
+    animes: [{
+        nombre: {
+            type: String,
+            required: true,
+            unique: true,
+            trim: true,
+            lowercase: true,
+            minLength: 2
+        },
+        estado: {
+            type: String,
+            enum: ["viendo", "por ver", "visto"],
+            required: true,
+            trim: true,
+            lowercase: true
+        }
+    }]
 });
 
 module.exports = mongoose.model("Lista", listaSchema);

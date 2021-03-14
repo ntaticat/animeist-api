@@ -1,3 +1,3 @@
-# API para listar animes
+# Animeist API
 
-Esta es una API para agregar, editar y eliminar animes de una lista que está guardada en una base de datos.
+Esta es una API para gestionar listas de anime. Hecha con Node/Express y Mongoose.

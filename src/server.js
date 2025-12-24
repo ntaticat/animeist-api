@@ -1,6 +1,9 @@
 const express = require('express');
 const cors = require('cors');
-const dbConnection = require('./database/dbConnection');
+const swaggerUi = require('swagger-ui-express');
+
+const dbConnection = require('./shared/database/connection');
+const swaggerV1 = require('./docs/v1/swagger');
 
 class Server {
     constructor() {
@@ -10,6 +13,7 @@ class Server {
         this.database();
         this.middlewares();
         this.routes();
+        this.swagger();
     }
 
     async database() {
@@ -22,13 +26,18 @@ class Server {
     }
 
     routes() {
-        this.app.use("/api/usuarios", require('./routes/usuariosRoutes'));
-        this.app.use("/api/listas", require('./routes/listasRoutes'));
+        this.app.use("/api/v1", require('./api/v1'));
+        // this.app.use("/api/v2", require('./api/v2'));
+    }
+
+    swagger() {
+        this.app.use("/api/docs/v1", swaggerUi.serve, swaggerUi.setup(swaggerV1));
     }
 
     listen() {
         this.app.listen(this.port, () => {
             console.log("Listen on port", this.port);
+            console.log(`Docs v1 → http://localhost:${this.port}/api/docs/v1`);
         });
     }
 }

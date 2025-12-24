@@ -28,10 +28,6 @@ exports.addAnimeLista = async (listaId, anime, estado) => {
 exports.removeAnimeLista = async (listaId, nombre) => {
     try {
         const lista = await listasModel.findById(listaId).exec();
-        lista.animes.push({
-            nombre: anime,
-            estado
-        });
         const indiceAnime = lista.animes.reduce((anime, index) => {
             if (anime.nombre == nombre) {
                 return index;
@@ -42,4 +38,9 @@ exports.removeAnimeLista = async (listaId, nombre) => {
     } catch (error) {
         throw error;
     }
+};
+
+exports.obtenerListaAnimesPorUsuario = async (usuarioId) => {
+    const lista = await listasModel.findOne({ usuario: usuarioId }).select("animes").lean();
+    return lista;
 };

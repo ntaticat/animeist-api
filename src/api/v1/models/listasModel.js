@@ -11,7 +11,6 @@ let listaSchema = new Schema({
         nombre: {
             type: String,
             required: true,
-            unique: true,
             trim: true,
             lowercase: true,
             minLength: 2

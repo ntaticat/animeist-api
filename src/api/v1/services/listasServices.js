@@ -14,8 +14,13 @@ exports.createLista = async (usuarioId) => {
 
 exports.addAnimeLista = async (listaId, anime, estado) => {
     try {
-        const lista = await listasModel.findById(listaId).exec();
-        await lista.animes.push({
+        const lista = await listasModel.findById(listaId);
+
+        if (!lista) {
+            throw new Error('Lista no encontrada');
+        }
+
+        lista.animes.push({
             nombre: anime,
             estado
         });
@@ -27,12 +32,18 @@ exports.addAnimeLista = async (listaId, anime, estado) => {
 
 exports.removeAnimeLista = async (listaId, nombre) => {
     try {
-        const lista = await listasModel.findById(listaId).exec();
-        const indiceAnime = lista.animes.reduce((anime, index) => {
-            if (anime.nombre == nombre) {
-                return index;
-            }
-        });
+        const lista = await listasModel.findById(listaId);
+
+        if (!lista) {
+            throw new Error('Lista no encontrada');
+        }
+
+        const indiceAnime = lista.animes.findIndex(anime => anime.nombre === nombre);
+
+        if (indiceAnime === -1) {
+            throw new Error('Anime no encontrado');
+        }
+
         lista.animes.splice(indiceAnime, 1);
         return await lista.save();
     } catch (error) {

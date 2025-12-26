@@ -1,17 +1,30 @@
+const mongoose = require('mongoose');
+
 const usuariosModel = require("../models/usuariosModel");
 const listasServices = require("./listasServices");
 
 exports.createUsuario = async (nombre, usuario) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
     try {
-        const newUsuario = new usuariosModel({
+        const [dbUsuario] = await usuariosModel.create([{
             nombre,
             usuario
-        });
-        const dbUsuario = await newUsuario.save();
-        const dbLista = await listasServices.createLista(dbUsuario._id);
+        }], { session });
+
+        const dbLista = await listasServices.createLista(dbUsuario._id, session);
+
         dbUsuario.lista = dbLista._id;
-        return await dbUsuario.save();
+
+        await dbUsuario.save({ session });
+
+        await session.commitTransaction();
+        await session.endSession();
+        return dbUsuario;
     } catch (error) {
+        await session.abortTransaction();
+        session.endSession();
         throw error;
     }
 };

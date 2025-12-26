@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     '/listas': {
         post: {
             tags: ['Listas'],

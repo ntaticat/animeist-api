@@ -1,9 +1,11 @@
-const express = require('express');
-const cors = require('cors');
-const swaggerUi = require('swagger-ui-express');
+import express, { json } from 'express';
+import cors from 'cors';
+import { serve, setup } from 'swagger-ui-express';
 
-const dbConnection = require('./shared/database/connection');
-const swaggerV1 = require('./docs/v1/swagger');
+import dbConnection from './shared/database/connection.js';
+import swaggerV1 from './docs/v1/swagger.js';
+
+import apiV1 from './api/v1/index.js';
 
 class Server {
     constructor() {
@@ -22,16 +24,16 @@ class Server {
 
     middlewares() {
         this.app.use(cors());
-        this.app.use(express.json());
+        this.app.use(json());
     }
 
     routes() {
-        this.app.use("/api/v1", require('./api/v1'));
-        // this.app.use("/api/v2", require('./api/v2'));
+        this.app.use("/api/v1", apiV1);
+        // this.app.use("/api/v2", import('./api/v2'));
     }
 
     swagger() {
-        this.app.use("/api/docs/v1", swaggerUi.serve, swaggerUi.setup(swaggerV1));
+        this.app.use("/api/docs/v1", serve, setup(swaggerV1));
     }
 
     listen() {
@@ -42,4 +44,4 @@ class Server {
     }
 }
 
-module.exports = Server;
+export default Server;

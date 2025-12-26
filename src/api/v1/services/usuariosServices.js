@@ -1,10 +1,10 @@
-const mongoose = require('mongoose');
+import { startSession } from 'mongoose';
 
-const usuariosModel = require("../models/usuariosModel");
-const listasServices = require("./listasServices");
+import usuariosModel from "../models/usuariosModel.js";
+import { createLista } from "./listasServices.js";
 
-exports.createUsuario = async (nombre, usuario) => {
-    const session = await mongoose.startSession();
+export async function createUsuario(nombre, usuario) {
+    const session = await startSession();
     session.startTransaction();
 
     try {
@@ -13,7 +13,7 @@ exports.createUsuario = async (nombre, usuario) => {
             usuario
         }], { session });
 
-        const dbLista = await listasServices.createLista(dbUsuario._id, session);
+        const dbLista = await createLista(dbUsuario._id, session);
 
         dbUsuario.lista = dbLista._id;
 
@@ -27,4 +27,4 @@ exports.createUsuario = async (nombre, usuario) => {
         session.endSession();
         throw error;
     }
-};
+}

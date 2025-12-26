@@ -1,11 +1,11 @@
-const { request, response } = require('express');
-const listasServices = require('../services/listasServices');
+import { request, response } from 'express';
+import { obtenerListaAnimesPorUsuario, addAnimeLista, removeAnimeLista } from '../services/listasServices.js';
 
-exports.getAnimes = async (req = request, res = response) => {
+export async function getAnimes(req = request, res = response) {
     try {
         const { usuarioId } = req.params;
 
-        const lista = await listasServices.obtenerListaAnimesPorUsuario(usuarioId);
+        const lista = await obtenerListaAnimesPorUsuario(usuarioId);
 
         if (!lista) {
             return res.status(404).json({
@@ -24,13 +24,13 @@ exports.getAnimes = async (req = request, res = response) => {
             error: error.message
         });
     }
-};
+}
 
 
-exports.postAnime = async (req = request, res = response) => {
+export async function postAnime(req = request, res = response) {
     try {
         const { listaId, anime, estado } = req.body.datos;
-        const dbLista = await listasServices.addAnimeLista(listaId, anime, estado);
+        const dbLista = await addAnimeLista(listaId, anime, estado);
         res.status(200).json({
             lista: dbLista
         });
@@ -41,12 +41,12 @@ exports.postAnime = async (req = request, res = response) => {
             error: error.message
         });
     }
-};
+}
 
-exports.deleteAnime = async (req = request, res = response) => {
+export async function deleteAnime(req = request, res = response) {
     try {
         const { listaId, nombre } = req.body.datos;
-        const dbLista = await listasServices.removeAnimeLista(listaId, nombre);
+        const dbLista = await removeAnimeLista(listaId, nombre);
         res.status(200).json({
             lista: dbLista
         });
@@ -57,4 +57,4 @@ exports.deleteAnime = async (req = request, res = response) => {
             error: error.message
         });
     }
-};
+}

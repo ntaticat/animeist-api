@@ -1,6 +1,6 @@
-const listasModel = require('../models/listasModel');
+import listasModel from '../models/listasModel.js';
 
-exports.createLista = async (usuarioId) => {
+export async function createLista(usuarioId) {
     try {
         const newLista = new listasModel({
             usuario: usuarioId,
@@ -10,9 +10,9 @@ exports.createLista = async (usuarioId) => {
     } catch (error) {
         throw error;
     }
-};
+}
 
-exports.addAnimeLista = async (listaId, anime, estado) => {
+export async function addAnimeLista(listaId, anime, estado) {
     try {
         const lista = await listasModel.findById(listaId);
 
@@ -28,9 +28,9 @@ exports.addAnimeLista = async (listaId, anime, estado) => {
     } catch (error) {
         throw error;
     }
-};
+}
 
-exports.removeAnimeLista = async (listaId, nombre) => {
+export async function removeAnimeLista(listaId, nombre) {
     try {
         const lista = await listasModel.findById(listaId);
 
@@ -49,9 +49,9 @@ exports.removeAnimeLista = async (listaId, nombre) => {
     } catch (error) {
         throw error;
     }
-};
+}
 
-exports.obtenerListaAnimesPorUsuario = async (usuarioId) => {
+export async function obtenerListaAnimesPorUsuario(usuarioId) {
     const lista = await listasModel.findOne({ usuario: usuarioId }).select("animes").lean();
     return lista;
-};
+}

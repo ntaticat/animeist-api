@@ -1,10 +1,10 @@
-const listaSchema = require('./schemas/lista.schema');
-const usuarioSchema = require('./schemas/usuario.schema');
+import listaSchema from './schemas/lista.schema.js';
+import usuarioSchema from './schemas/usuario.schema.js';
 
-const listasPaths = require('./paths/listas.paths');
-const usuariosPaths = require('./paths/usuarios.paths');
+import listasPaths from './paths/listas.paths.js';
+import usuariosPaths from './paths/usuarios.paths.js';
 
-module.exports = {
+export default {
     openapi: "3.0.0",
     info: {
         title: "Animeist API",

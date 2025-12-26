@@ -1,8 +1,10 @@
-const router = require('express').Router();
-const listasController = require('../controllers/listasController');
+import Router from 'express';
+import { getAnimes, postAnime, deleteAnime } from '../controllers/listasController.js';
 
-router.get("/:usuarioId", listasController.getAnimes);
-router.post("/", listasController.postAnime);
-router.delete("/", listasController.deleteAnime);
+const router = Router();
 
-module.exports = router;
+router.get("/:usuarioId", getAnimes);
+router.post("/", postAnime);
+router.delete("/", deleteAnime);
+
+export default router;

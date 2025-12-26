@@ -1,10 +1,10 @@
-const { request, response } = require('express');
-const usuariosServices = require('../services/usuariosServices');
+import { request, response } from 'express';
+import { createUsuario } from '../services/usuariosServices.js';
 
-exports.postUsuario = async (req = request, res = response) => {
+export async function postUsuario(req = request, res = response) {
     try {
         const { nombre, usuario } = req.body;
-        const dbUsuario = await usuariosServices.createUsuario(nombre, usuario);
+        const dbUsuario = await createUsuario(nombre, usuario);
         res.status(200).json({
             usuario: dbUsuario
         });
@@ -13,4 +13,4 @@ exports.postUsuario = async (req = request, res = response) => {
             error
         });
     }
-};
+}
